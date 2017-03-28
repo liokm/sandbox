@@ -1,18 +1,38 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch, Link } from 'react-router-dom';
+
+const Driver = () => <h1>Driver</h1>;
+const Dvir = () => <h1>Dvir</h1>;
+const Reports = () => <h1>Reports</h1>;
+const routes = [
+  {
+    name: 'driver',
+    render: Driver,
+  },
+  {
+    name: 'dvir',
+    render: Dvir,
+  },
+  {
+    name: 'reports',
+    render: Reports,
+  },
+]
+
+const Home = () => (
+  <ul>
+    { routes.map(({ name, path }) => <li key={name}><Link to={path || `/${name}`}>{name}</Link></li>) }
+  </ul>
+);
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <Switch>
+          <Route exact path="/" render={Home} />
+          { routes.map(({ name, path, ...rest }) => <Route key={name} path={path || `/${name}`} {...rest} />) }
+        </Switch>
       </div>
     );
   }
